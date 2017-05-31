@@ -62,10 +62,14 @@ def fitting_polynomial(ti, yi):
     x = figure_x(H, y_t, dim)
     print x
     y_pred = polynomial_2(x[0],x[1],x[2],ti)
-    plt.plot(ti,y_pred,"g")
+    x_curv = [float(i / 1000.0) for i in range(1, 8*1000, 1)]
+    y_curv = polynomial_2(x[0],x[1],x[2], np.array(x_curv,dtype=np.float64))
+    plt.plot(x_curv,y_curv,"g")
     plt.scatter(ti,y_pred,marker="o")
     plt.scatter(ti,yi,edgecolors="r",marker="*")
 
+    e_r2 = np.sqrt(np.sum(((y_pred-yi)**2) / lens))
+    print e_r2
 
 def fitting_exp(ti, yi):
     lens = np.shape(ti)[0]
@@ -73,11 +77,17 @@ def fitting_exp(ti, yi):
     dim = np.shape(H)[0]
     y_t = A_t.dot(get_exp_y(yi))
     x = figure_x(H, y_t, dim)
-    print x
-    y_pred = exp_fitting(np.exp(x[0]), x[1], ti)
-    plt.plot(ti, y_pred, "b")
-    plt.scatter(ti, y_pred, marker="o")
 
+    x = [np.exp(x[0]), x[1]]
+    print x
+    y_pred = exp_fitting(x[0], x[1], ti)
+
+    x_curv = [float(i / 1000.0) for i in range(1, 8 * 1000, 1)]
+    y_curv = exp_fitting(x[0], x[1], np.array(x_curv, dtype=np.float64))
+    plt.plot(x_curv, y_curv, "b")
+    plt.scatter(ti, y_pred, marker="o")
+    e_r2 = np.sqrt(np.sum(((y_pred-yi)**2) / lens))
+    print e_r2
 fitting_polynomial(ti, yi)
 fitting_exp(ti, yi)
 plt.show()

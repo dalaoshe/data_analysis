@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 # SOR JACO 迭代求解方程
 import numpy as np
+import matplotlib.pyplot as plt
 from Hilbert_Cholesky import create_H
 
 # raws = 3
@@ -66,7 +67,7 @@ def SOR(A, B, w, x, e, dimession):
         k = k + 1
         e_list.append(k_e)
         #print "k: %d" % k, " k_e: %f" % k_e, " x: ", x
-    return e_list, x, k
+    return e_list[-1], x, k
 
 def test_SOR_w(step=0.01):
     A = create_H(10)
@@ -84,15 +85,32 @@ def test_SOR_w(step=0.01):
     w_s = list()
     while w < 2.0:
         x_0 = [float(0.0) for x in range(10)]
-        e_list, x_p, k = SOR(A, b, w, x_0, e, 10)
+        e_r, x_p, k = SOR(A, b, w, x_0, e, 10)
         error = (get_e(x_a, x_p))/1.0
         print "iteration:%d, error:%0.10f " %(k, error)
         print "p_result:",x_p
         w_s.append(w)
         w_ks.append(k)
         w_es.append(error)
-
         w += step
+    plt.plot(w_s, w_ks, "g")
+    plt.show()
+    plt.plot(w_s, w_es, "r")
+    plt.show()
 
 if __name__ == '__main__':
-    test_SOR_w(0.1)
+    test_SOR_w(0.01)
+
+    A = create_H(10)
+    b = [float(1.0/x) for x in range(1,11)]
+    e = 1e-4
+    x_a = [float(0.0) for x in range(10)]
+    x_a[0] = 1.0
+    print "A ",A
+    print "b ",b
+    x_0 = [float(0.0) for x in range(10)]
+    e_r, x_p, k = SOR(A, b, 1.25, x_0, e, 10)
+    print "sor_predict [k:%d, e:%.10f]" %(k, (get_e(x_a, x_p))/1.0)
+    print "1.25_x_p:"
+    for i in x_p:
+        print "%.5f" % (i),

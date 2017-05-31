@@ -1,5 +1,5 @@
 import numpy as np
-
+import matplotlib.pyplot as plt
 def create_H(dimession):
     H = np.ones([dimession,dimession],dtype=np.float64)
     for i in range(1,dimession+1):
@@ -82,11 +82,29 @@ def do_experiment(dimession, eps):
     print "r_b:",r_b, "\nr_b_00:",np.max(abs(r_b))
     print "r_x:",r_x, "\nr_x_00:",np.max(abs(r_x))
     print ""
+    return np.max(abs(r_b)), np.max(abs(r_x)), s_1*s_2
 
+def do_n_test():
+    r_b_list = list()
+    r_x_list = list()
+    cond_list = list()
+    for n in range(2, 10):
+        r_b, r_x, cond = do_experiment(n, 0)
+        r_b_list.append(r_b)
+        r_x_list.append(r_x)
+        cond_list.append(cond)
+    print r_b_list
+    print r_x_list
+    print cond_list
+    plt.plot(range(2, 10), np.log(r_b_list), "b")
+    plt.plot(range(2, 10), np.log(r_x_list), "r")
+    #plt.show()
+    plt.plot(range(2, 10), np.log(cond_list), "g")
+    plt.show()
 if __name__ == '__main__':
     do_experiment(10, 0.0)
-
-
     do_experiment(10, 10e-7)
-    do_experiment(8,0.0)
-    do_experiment(12,0.0)
+    do_experiment(8, 0.0)
+    do_experiment(12, 0.0)
+
+    do_n_test()
