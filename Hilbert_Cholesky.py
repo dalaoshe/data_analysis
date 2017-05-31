@@ -27,7 +27,7 @@ def Cholesky_L(H, dimession):
     for i in range(dimession):
         for j in range(i+1, dimession):
             H[i][j] = H[j][i]
-    return H,L
+    return H, L
 
 
 def aft_generation(L, b , dimession):
@@ -54,10 +54,10 @@ def pre_generation(L, b, dimession):
 
 
 def figure_x(A, b, dimession):
-    H, L = Cholesky_L(A, dimession)
-    L_t = np.transpose(L)
-    y = pre_generation(L, b, dimession)
-    x = aft_generation(L_t, y, dimession)
+    H, L = Cholesky_L(np.copy(A), dimession)
+    L_t = np.transpose(np.copy(L))
+    y = pre_generation(np.copy(L), b, dimession)
+    x = aft_generation(np.copy(L_t), y, dimession)
 
 
     return x
@@ -76,11 +76,13 @@ def do_experiment(dimession, eps):
     x_L = figure_x(H, b_eps, dimession)
     b_L = H.dot(x_L)
 
+
     r_b = b - b_L
     r_x = x_f - x_L
-    print "cond(H)=", s_1 * s_2, " ||H||=", s_1, " ||H-1||=", s_2
-    print "r_b:",r_b, "\nr_b_00:",np.max(abs(r_b))
-    print "r_x:",r_x, "\nr_x_00:",np.max(abs(r_x))
+    print "N:%d, eps_b:%.20f" % (dimession, eps)
+    print "cond(H):%d, |H|=%d, |H-1|=%d" % (s_1 * s_2, s_1, s_2)
+    print "|r_b|:%.20f"% (np.max(abs(r_b)))
+    print "|r_x|:%.20f"% (np.max(abs(r_x)))
     print ""
     return np.max(abs(r_b)), np.max(abs(r_x)), s_1*s_2
 
@@ -96,15 +98,15 @@ def do_n_test():
     print r_b_list
     print r_x_list
     print cond_list
-    plt.plot(range(2, 10), np.log(r_b_list), "b")
+    plt.plot(range(2, 10), np.log(np.array(r_b_list, dtype=np.float64)), "b")
     plt.plot(range(2, 10), np.log(r_x_list), "r")
     #plt.show()
     plt.plot(range(2, 10), np.log(cond_list), "g")
     plt.show()
 if __name__ == '__main__':
     do_experiment(10, 0.0)
-    do_experiment(10, 10e-7)
+    do_experiment(10, 1e-7)
     do_experiment(8, 0.0)
     do_experiment(12, 0.0)
-
-    do_n_test()
+    #
+    #do_n_test()

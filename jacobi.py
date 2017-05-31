@@ -83,34 +83,43 @@ def test_SOR_w(step=0.01):
     w_es = list()
     w_ks = list()
     w_s = list()
-    while w < 2.0:
+    while w < 1.999:
         x_0 = [float(0.0) for x in range(10)]
         e_r, x_p, k = SOR(A, b, w, x_0, e, 10)
         error = (get_e(x_a, x_p))/1.0
-        print "iteration:%d, error:%0.10f " %(k, error)
-        print "p_result:",x_p
+        # print "iteration:%d, error:%0.10f " %(k, error)
+        # print "p_result:",x_p
         w_s.append(w)
         w_ks.append(k)
         w_es.append(error)
         w += step
+        #print w
     plt.plot(w_s, w_ks, "g")
     plt.show()
     plt.plot(w_s, w_es, "r")
     plt.show()
 
 if __name__ == '__main__':
-    test_SOR_w(0.01)
+    test_SOR_w(0.001)
 
-    A = create_H(10)
-    b = [float(1.0/x) for x in range(1,11)]
-    e = 1e-4
-    x_a = [float(0.0) for x in range(10)]
-    x_a[0] = 1.0
-    print "A ",A
-    print "b ",b
-    x_0 = [float(0.0) for x in range(10)]
-    e_r, x_p, k = SOR(A, b, 1.25, x_0, e, 10)
-    print "sor_predict [k:%d, e:%.10f]" %(k, (get_e(x_a, x_p))/1.0)
-    print "1.25_x_p:"
-    for i in x_p:
-        print "%.5f" % (i),
+    # n = 10
+    # A = create_H(n)
+    # b = [float(1.0/x) for x in range(1,n+1)]
+    # e = 1e-4
+    # x_a = [float(0.0) for x in range(n)]
+    # x_a[0] = 1.0
+    # x_0 = [float(0.0) for x in range(n)]
+    # e_r, x_p, k = SOR(A, b, 1.25, x_0, e, 10)
+    # print "sor_predict [k:%d, e:%.10f]" %(k, (get_e(x_a, x_p))/1.0)
+    # print "1.25_x_p:"
+    # for i in x_p:
+    #     print "%.5f" % (i),
+
+
+    # n >= 3, 2*D-H fuding, jacobi bu shou lian
+
+    # e_r, x_p = jacobi(A, b, x_0, e, n)
+    # print "sor_predict [k:%d, e:%.10f]" %(1, (get_e(x_a, x_p))/1.0)
+    # print "1.25_x_p:"
+    # for i in x_p:
+    #     print "%.5f" % (i),

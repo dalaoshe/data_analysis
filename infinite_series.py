@@ -14,6 +14,7 @@ def can_stop_theory(n, sums, type, count):
         return True
     return False
 
+
 def not_change(last, now, type):
     if now - last < np.finfo(type).eps:
         # print "last:", last
@@ -31,12 +32,9 @@ def figure_infinite_series(type, max_count=2097155):
     stop = False
     s_time = time.clock()
     while True and count < max_count:
-        sum_last = np.array(sum_result, dtype=type)
+        sum_last = np.copy(sum_result)
         sum_result += one_constant / n
         n = n + one_constant
-        # if figure_count > 2097120:
-        #     print figure_count, " ",sum_result
-      #  print sum_result
         stop = True
         if not can_stop_theory(one_constant / n, sum_result, type, theory_count):
             theory_count += 1
@@ -56,7 +54,15 @@ sum_32,t_count_32,f_count_32,u_time = figure_infinite_series(np.float32)
 print sum_32, " theory_count ", t_count_32, " firgure_count ", f_count_32,
 print "use time:%.10f" % u_time
 
-sum_32,t_count_32,f_count_32,u_time = figure_infinite_series(np.float64,
+sum_64,t_count_32,f_count_32,u_time = figure_infinite_series(np.float64,
                                                              2097152)
-print sum_32, " theory_count ", t_count_32, " firgure_count ", f_count_32,
+print sum_64, " theory_count ", t_count_32, " firgure_count ", f_count_32,
 print "use time:%.10f" % u_time
+
+err_64_32 = (sum_32-sum_64)
+err_64_32_R = (sum_32-sum_64) / sum_64
+print "e: %.10f, e_r: %.10f" % (err_64_32, err_64_32_R)
+
+t_n = u_time / f_count_32
+years = ((5e14 / f_count_32)* u_time) / (60.0*60.0*24.0*365.0)
+print "float64 need %d years" % years
