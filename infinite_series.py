@@ -22,7 +22,7 @@ def not_change(last, now, type):
         return True
     return False
 
-def figure_infinite_series(type, max_count=2097155):
+def figure_infinite_series(type, max_count=3097155):
     n = np.array([1],dtype=type)
     one_constant = np.array([1],dtype=type)
     sum_result = np.array([0],dtype=type)
@@ -51,12 +51,12 @@ def figure_infinite_series(type, max_count=2097155):
     return sum_result, theory_count, figure_count, (e_time-s_time)
 
 sum_32,t_count_32,f_count_32,u_time = figure_infinite_series(np.float32)
-print sum_32, " theory_count ", t_count_32, " firgure_count ", f_count_32,
+print "sum_32: ",sum_32, " theory_count_32 ", t_count_32, " firgure_count_32 ", f_count_32,
 print "use time:%.10f" % u_time
 
 sum_64,t_count_32,f_count_32,u_time = figure_infinite_series(np.float64,
                                                              2097152)
-print sum_64, " theory_count ", t_count_32, " firgure_count ", f_count_32,
+print "sum_64: ", sum_64, " firgure_count ", f_count_32,
 print "use time:%.10f" % u_time
 
 err_64_32 = (sum_32-sum_64)

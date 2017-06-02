@@ -86,11 +86,11 @@ def do_experiment(dimession, eps):
     print ""
     return np.max(abs(r_b)), np.max(abs(r_x)), s_1*s_2
 
-def do_n_test():
+def do_n_test(dimession):
     r_b_list = list()
     r_x_list = list()
     cond_list = list()
-    for n in range(2, 10):
+    for n in range(2, dimession):
         r_b, r_x, cond = do_experiment(n, 0)
         r_b_list.append(r_b)
         r_x_list.append(r_x)
@@ -98,15 +98,15 @@ def do_n_test():
     print r_b_list
     print r_x_list
     print cond_list
-    plt.plot(range(2, 10), np.log(np.array(r_b_list, dtype=np.float64)), "b")
-    plt.plot(range(2, 10), np.log(r_x_list), "r")
+    plt.plot(range(2, dimession), np.log(np.array(r_b_list, dtype=np.float64)), "b")
+    plt.plot(range(2, dimession), np.log(r_x_list), "r")
     #plt.show()
-    plt.plot(range(2, 10), np.log(cond_list), "g")
+    plt.plot(range(2, dimession), np.log(cond_list), "g")
     plt.show()
 if __name__ == '__main__':
-    do_experiment(10, 0.0)
-    do_experiment(10, 1e-7)
-    do_experiment(8, 0.0)
-    do_experiment(12, 0.0)
+    # do_experiment(10, 0.0)
+    # do_experiment(10, 1e-7)
+    # do_experiment(8, 0.0)
+    # do_experiment(12, 0.0)
     #
-    #do_n_test()
+    do_n_test(14)

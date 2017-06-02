@@ -22,7 +22,7 @@ def jacobi(A, B, x, e, dimession):
     k_e = 555555
     k = 0
     e_list = list()
-    while k_e > e:
+    while k_e > e and k < 1000:
         y = list()
         for i in range(dimession):
             y.append(x[i])
@@ -101,7 +101,7 @@ def test_SOR_w(step=0.01):
 
 if __name__ == '__main__':
     test_SOR_w(0.001)
-
+    #
     # n = 10
     # A = create_H(n)
     # b = [float(1.0/x) for x in range(1,n+1)]
@@ -109,15 +109,17 @@ if __name__ == '__main__':
     # x_a = [float(0.0) for x in range(n)]
     # x_a[0] = 1.0
     # x_0 = [float(0.0) for x in range(n)]
+    #
+    #
     # e_r, x_p, k = SOR(A, b, 1.25, x_0, e, 10)
     # print "sor_predict [k:%d, e:%.10f]" %(k, (get_e(x_a, x_p))/1.0)
     # print "1.25_x_p:"
     # for i in x_p:
     #     print "%.5f" % (i),
-
-
+    #
+    #
     # n >= 3, 2*D-H fuding, jacobi bu shou lian
-
+    #
     # e_r, x_p = jacobi(A, b, x_0, e, n)
     # print "sor_predict [k:%d, e:%.10f]" %(1, (get_e(x_a, x_p))/1.0)
     # print "1.25_x_p:"
